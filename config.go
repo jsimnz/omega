@@ -1,12 +1,12 @@
 package omega
 
 import (
-	"code.google.com/p/gcfg/"
+	"code.google.com/p/gcfg"
 )
 
 var (
+	configFile = "examples/omega.conf"
 	cfg        Config
-	configFile = "/etc/omega/omega.conf"
 )
 
 // Config Struct
@@ -14,14 +14,14 @@ type Config struct {
 	// HTTP section config
 	Http struct {
 		BaseHttpConfig
-		MaxClients string
+		MaxClients int
 		MaxProc    int
 		KeepAlive  bool
 		Timeout    int
 	}
 
 	// Hostname config
-	Hostname map[string]*struct {
+	Hosts map[string]*struct {
 		BaseHttpConfig
 	}
 
@@ -37,11 +37,14 @@ type Config struct {
 type BaseHttpConfig struct {
 	Hostname string
 	Port     int
-	WWW      string
+	Root     string
 }
 
 // Parse command line args
 func init() {
 	// Just testing config structs
 	err := gcfg.ReadFileInto(&cfg, configFile)
+	if err != nil {
+		panic(err)
+	}
 }
