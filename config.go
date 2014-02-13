@@ -21,9 +21,7 @@ type Config struct {
 	}
 
 	// Hostname config
-	Hosts map[string]*struct {
-		BaseHttpConfig
-	}
+	Hosts map[string]*Host
 
 	// Log section config
 	Log struct {
@@ -31,6 +29,10 @@ type Config struct {
 		Syslog    bool
 		LogFormat string
 	}
+}
+
+type Host struct {
+	BaseHttpConfig
 }
 
 // Basic HTTP configurations for HTTP & Hostname sections
