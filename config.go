@@ -4,42 +4,42 @@ import "code.google.com/p/gcfg"
 
 var (
 	configFileLocation = "examples/omegad.conf"
-	cfg                Config
 )
 
 // Configuration Struct
 type Config struct {
 	// Engine configuration
-	Engine engine
+	Engine engineConfg
 	// HTTP section config
-	Http http
+	Http httpConf
 	// Hostname config
-	Hosts map[string]*host
+	Hosts map[string]*hostConfig
 	// Log section config
-	Log log
+	Log logConf
 }
 
 // Core HTTP request engine config
-type engine struct {
+type engineConf struct {
 	MaxClients int
 	MaxProc    int
 }
 
 // HTTP Request/Response behavior config
-type http struct {
-	KeepAlive bool
-	Timeout   int
+type httpConf struct {
+	KeepAlive    bool
+	ReadTimeout  int
+	WriteTimeout int
 }
 
 // (V)Host config
-type host struct {
+type hostConfig struct {
 	Hostname string
 	Port     int
 	RootDir  string
 }
 
 // Logging config
-type log struct {
+type logConf struct {
 	LogLevel  string
 	Syslog    bool
 	LogFormat string
@@ -51,5 +51,4 @@ func parseConfigFile(filename string, cfg *Config) error {
 	if err != nil {
 		panic(err)
 	}
-	yaml
 }
