@@ -1,52 +1,55 @@
 package omega
 
-import (
-	"code.google.com/p/gcfg"
-)
+import "code.google.com/p/gcfg"
 
 var (
-	configFile = "examples/omega.conf"
-	cfg        Config
+	configFileLocation = "examples/omegad.conf"
+	cfg                Config
 )
 
-// Config Struct
+// Configuration Struct
 type Config struct {
+	// Engine configuration
+	Engine engine
 	// HTTP section config
-	Http struct {
-		BaseHttpConfig
-		MaxClients int
-		MaxProc    int
-		KeepAlive  bool
-		Timeout    int
-	}
-
+	Http http
 	// Hostname config
-	Hosts map[string]*Host
-
+	Hosts map[string]*host
 	// Log section config
-	Log struct {
-		LogLevel  string
-		Syslog    bool
-		LogFormat string
-	}
+	Log log
 }
 
-type Host struct {
-	BaseHttpConfig
+// Core HTTP request engine config
+type engine struct {
+	MaxClients int
+	MaxProc    int
 }
 
-// Basic HTTP configurations for HTTP & Hostname sections
-type BaseHttpConfig struct {
+// HTTP Request/Response behavior config
+type http struct {
+	KeepAlive bool
+	Timeout   int
+}
+
+// (V)Host config
+type host struct {
 	Hostname string
 	Port     int
-	Root     string
+	RootDir  string
 }
 
-// Parse command line args
-func init() {
+// Logging config
+type log struct {
+	LogLevel  string
+	Syslog    bool
+	LogFormat string
+}
+
+func parseConfigFile(filename string, cfg *Config) error {
 	// Just testing config structs
-	err := gcfg.ReadFileInto(&cfg, configFile)
+	err := gcfg.ReadFileInto(cfg, configFile)
 	if err != nil {
 		panic(err)
 	}
+	yaml
 }

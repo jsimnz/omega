@@ -1,33 +1,24 @@
 package omega
 
-import ()
-
-type Router struct {
-
+type HostRouter struct {
 	// The formatted host:port address the router is connected to
 	addr string
-
 	// Host
 	host string
-
 	// Port
 	port int
-
 	// DocumentRoot
 	root string
-
 	// Number of connections currently in use
 	connections uint
-
 	// Hosts under the same port using the same router
 	hosts map[string]*Host
-
 	// Rules parsed out of the pseudo-htaccess files
 	rules map[string]interface{}
 }
 
 // Creates a new router to handle requests
-func NewRouter(host string, port int, root string) *Router {
+func NewHostRouter(host string, port int, root string) *HostRouter {
 	r := &Router{
 		addr:        getAddr(host, port),
 		host:        host,
@@ -39,7 +30,7 @@ func NewRouter(host string, port int, root string) *Router {
 }
 
 // Satisfies the Handler interface
-func (r *Router) ServeHTTP() {
+func (r *HostRouter) ServeHTTP() {
 
 }
 
